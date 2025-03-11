@@ -1,0 +1,5 @@
++ .env
+- /.*
+- /*.yml
+- /*.sqlite*
+- __pycache__

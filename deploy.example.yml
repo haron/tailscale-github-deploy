@@ -1,0 +1,14 @@
+- name: MY_PROJECT deploy
+  hosts: all
+  strategy: free
+  vars:
+    env: prod
+    project: my_project
+    slug: "{{ project }}-{{ env }}"
+    prefix: /var/www/{{ slug }}
+    user: deploy
+  tasks:
+    - name: upload directory {{ playbook_dir }} to {{ prefix }}
+      synchronize: src="{{ playbook_dir }}/" dest={{ prefix }}
+
+# ... (go on with your own tasks)

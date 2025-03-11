@@ -1,0 +1,32 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: alpine/ansible:2.18.1
+      options: --cap-add=NET_ADMIN --device=/dev/net/tun
+    env:
+      ANSIBLE_HOST_KEY_CHECKING: "False"
+      ANSIBLE_LIBSSH_REMOTE_USER: deploy
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: apk add coreutils curl sudo tar
+
+      - uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+
+      - name: Deploy
+        uses: dawidd6/action-ansible-playbook@v3
+        with:
+          playbook: deploy.yml
+          inventory: your.host.name # more details at https://github.com/marketplace/actions/run-ansible-playbook
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
