@@ -7,7 +7,7 @@ and you have already [installed](https://tailscale.com/kb/1031/install-linux) Ta
 2. Create Tailscale tag: at https://login.tailscale.com/admin/acls/file add `"tag:ci": [...],` to `tagOwners` section.
 
 3. Create Oauth secret at Tailscale control panel: go to <https://login.tailscale.com/admin/settings/oauth>,
-click "Generate OAuth client" and check both "Read" and "Write" for Auth Keys. Copy newly
+click "Generate OAuth client", check both "Read" and "Write" for Auth Keys and select `tag:ci`. Copy newly
 created client ID and secret to Github secrets `TS_OAUTH_CLIENT_ID` and `TS_OAUTH_SECRET`,
 respectively.
 
